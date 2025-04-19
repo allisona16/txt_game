@@ -1,0 +1,176 @@
+#include <ncurses.h>
+#include <iostream>
+#include <string>
+#include <stdio.h>
+
+using namespace std;
+
+void displayText(WINDOW * textwin, WINDOW * textwin2 , string story);
+void action(string options[5], WINDOW * textwin, WINDOW * textwin2);
+int main(int argc, char ** argv)
+{
+	initscr();
+	noecho();
+	cbreak();
+
+	//making a menu for the start of the game
+	int height, width, starty, startx;
+	height = 4; width = 20;
+	getmaxyx(stdscr, starty, startx);
+	WINDOW * menu = newwin(height, width, 0, (startx/2)-10);
+
+	box(menu, 0, 0);	/*making a box on the menu and shows it*/
+	refresh();
+	wrefresh(menu);
+
+	//////making the box and window for my story.////////
+	int h, w, yMax, xMax;
+	h = 10; w = 30;
+	getmaxyx(stdscr, yMax, xMax);
+
+	WINDOW * textwin = newwin(h, xMax-10, (yMax)-10, 5);
+
+	WINDOW * textwin2 = newwin(h-2, xMax-12, (yMax)-9, 6);
+	string scen0 = "Once upon a time, there was a girl who went out in the woods at night. The girl then heard an eerie sound and she started running. When the girl started running, she didn't realize there was a hole. As the girl kept running, she fell in the hole. The girl was lost and her family reported her missing. The police and investigators did the best they could to find her, but she was never found. The girl was sadly claimed as dead.";
+	///////////////////////////////////////////////////
+
+	keypad(menu, true);
+	string choices[2] = {"Start Game", "Exit"};
+
+	int choice;
+	int highlight = 0;
+	int quit = 0;
+
+	while(quit != 1)
+	{
+		for(int i = 0; i < 2; i++)
+		{
+			if(i == highlight)
+				wattron(menu, A_REVERSE);
+			mvwprintw(menu, i+1, 1, "%s", choices[i].c_str());
+			wattroff(menu, A_REVERSE);
+		}
+			
+		choice = wgetch(menu);
+
+		switch(choice)
+		{
+			case KEY_UP: 
+				highlight--;
+				if(highlight < 0)
+					highlight = 0;
+				break;
+			case KEY_DOWN:
+				highlight++;
+				if(highlight > 1)
+					highlight = 1;
+				break;
+			default:
+				break;
+		}
+		
+		if(choice == 27)
+			quit = 1;
+		if(choice == 10)
+		{
+			if(choices[highlight] == "Exit")
+			{
+				quit = 1;
+				break;
+			}
+			else if(choices[highlight] == "Start Game")
+			{
+				mvprintw(0,0, "Welcome to the Game");
+				refresh();
+				displayText(textwin, textwin2, scen0);
+				string options[5] = {"Fly", "Kite", "Stay", "RUN!!", "..."};
+				action(options, textwin, textwin2);
+
+			}
+		}
+	}
+	//mvprintw(0,0, "Welcome to the Game");
+
+	getch();
+	endwin();
+}
+
+void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
+{
+	int height, width, starty, startx;
+	height = 6; width = 10;
+	getmaxyx(stdscr, starty, startx);
+	WINDOW * action = newwin(height, width, 6, (startx/2)-10);
+
+	box(action, 0, 0);	/*making a box on the menu and shows it*/
+	refresh();
+	wrefresh(action);
+
+	keypad(action, true);
+	int choice;
+	int highlight = 0;
+
+	string fly = "To their dismay, the girl did not die. Instead, she is stuck hovering in the sky. When the girl used her last amount of strength, she got up from the deep hole and saw a shining light. She opened her eyes and saw an alicorn. She went to the alicorn and got on its back. Then, the alicorn flew off into the sky and took the girl wherever she wanted to go.";
+
+	while(1)
+	{
+		for(int i = 0; i < 5; i++)
+		{
+			if(i == highlight)
+				wattron(action, A_REVERSE);
+			mvwprintw(action, i+1, 1, "%s", options[i].c_str());
+			wattroff(action, A_REVERSE);
+		}
+			
+		choice = wgetch(action);
+
+		switch(choice)
+		{
+			case KEY_UP: 
+				highlight--;
+				if(highlight < 0)
+					highlight = 0;
+				break;
+			case KEY_DOWN:
+				highlight++;
+				if(highlight > 4)
+					highlight = 4;
+				break;
+			default:
+				break;
+		}
+		
+		if(choice == 27)
+			break;
+		if(choice == 10)
+		{
+			if(options[highlight] == "Fly")
+			{
+				displayText(textwin, textwin2, fly);
+				string options2[5] = {"Crash", "Land", "Spinning", "...", "..."};
+				options = options2;
+				//break;
+			}
+			mvwprintw(stdscr, 1, 1, "%s", options[highlight].c_str());
+			refresh();
+		}
+			
+	}
+}
+
+void displayText(WINDOW * textwin, WINDOW * textwin2, string story)
+{
+	box(textwin, 0, 0);
+	refresh();
+	wrefresh(textwin);
+	
+	wclear(textwin2);
+	wrefresh(textwin2);
+	mvwprintw(textwin2, 0,0, "%s", story.c_str());
+	wrefresh(textwin2);
+	//getch();
+	//wclear(textwin2);
+	//wrefresh(textwin2);
+	//getch();
+	
+}
