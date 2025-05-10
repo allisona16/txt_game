@@ -212,13 +212,13 @@ void crash(WINDOW * textwin, WINDOW * textwin2)
 	string options3[5] = {"Survive", "Die", "...", "...", "..."};
 	action(options3, textwin, textwin2);
 }
-void die(WINDOW * textwin, WINDOW * textwin2);
+void die(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options4[5] = {"Survive", "Die", "...", "...", "..."};
+	string options4[5] = {"Abandoned", "Burial", "...", "...", "..."};
 	action(options4, textwin, textwin2);
 }
-void burial(WINDOW * textwin, WINDOW * textwin2);
+void burial(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options5[5] = {"Survive", "Die", "...", "...", "..."};
+	string options5[5] = {"Afterlife", "Zombie", "...", "...", "..."};
 	action(options5, textwin, textwin2);
 }
