@@ -7,6 +7,10 @@ using namespace std;
 
 void displayText(WINDOW * textwin, WINDOW * textwin2 , string story);
 void action(string options[5], WINDOW * textwin, WINDOW * textwin2);
+void fly(WINDOW * textwin, WINDOW * textwin2);
+void crash(WINDOW * textwin, WINDOW * textwin2);
+void die(WINDOW * textwin, WINDOW * textwin2);
+void burial(WINDOW * textwin, WINDOW * textwin2);
 int main(int argc, char ** argv)
 {
 	initscr();
@@ -110,7 +114,13 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 	int choice;
 	int highlight = 0;
 
-	string fly = "To their dismay, the girl did not die. Instead, she is stuck hovering in the sky. When the girl used her last amount of strength, she got up from the deep hole and saw a shining light. She opened her eyes and saw an alicorn. She went to the alicorn and got on its back. Then, the alicorn flew off into the sky and took the girl wherever she wanted to go.";
+	string fly_ = "To their dismay, the girl did not die. Instead, she is stuck hovering in the sky. When the girl used her last amount of strength, she got up from the deep hole and saw a shining light. She opened her eyes and saw an alicorn. She went to the alicorn and got on its back. Then, the alicorn flew off into the sky and took the girl wherever she wanted to go.";
+
+	string crash_ = "However, as the girl was flying on the alicorn, a very strong storm occurred and the girl and alicorn were struggling to stay in the sky. As they were flying, a strong wind hit them and both of them crashed and fell into the sea.";
+
+	string die_ = "As the girl and alicorn fell into the sea, both began to drown and failed to reach shore. They couldn't breath and both sadly died in the sea. They drowned all the way to the bottom of the sea and they were never seen again.";
+
+	string burial_ = "A year after their drowning, investigators were searching the area. As they went underwater to observe, they suddenly found the girl that went missing for a year, and her alicorn that she rode. The investigators contacted the police and the girls family, and they were taken out of the sea. The family arranged a funeral for the girl and alicorn the next day.";
 
 	while(1)
 	{
@@ -146,14 +156,30 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 		{
 			if(options[highlight] == "Fly")
 			{
-				displayText(textwin, textwin2, fly);
-				string options2[5] = {"Crash", "Land", "Spinning", "...", "..."};
-				options = options2;
-				//break;
+				displayText(textwin, textwin2, fly_);
+				fly(textwin, textwin2);
+			}
+			if(options[highlight] == "Crash")
+			{
+				displayText(textwin, textwin2, crash_);
+				crash(textwin, textwin2);
+			}
+			if(options[highlight] == "Die")
+			{
+				displayText(textwin, textwin2, die_);
+				die(textwin, textwin2);
+			}
+			if(options[highlight] == "Burial")
+			{
+				displayText(textwin, textwin2, burial_);
+				burial(textwin, textwin2);
 			}
 			mvwprintw(stdscr, 1, 1, "%s", options[highlight].c_str());
 			refresh();
 		}
+		wrefresh(action);
+		refresh();
+		wgetch(action);
 			
 	}
 }
@@ -165,6 +191,7 @@ void displayText(WINDOW * textwin, WINDOW * textwin2, string story)
 	wrefresh(textwin);
 	
 	wclear(textwin2);
+	
 	wrefresh(textwin2);
 	mvwprintw(textwin2, 0,0, "%s", story.c_str());
 	wrefresh(textwin2);
@@ -173,4 +200,25 @@ void displayText(WINDOW * textwin, WINDOW * textwin2, string story)
 	//wrefresh(textwin2);
 	//getch();
 	
+}
+
+void fly(WINDOW * textwin, WINDOW * textwin2)
+{
+	string options2[5] = {"Crash", "Land", "Spinning", "...", "..."};
+	action(options2, textwin, textwin2);	
+}
+void crash(WINDOW * textwin, WINDOW * textwin2)
+{
+	string options3[5] = {"Survive", "Die", "...", "...", "..."};
+	action(options3, textwin, textwin2);
+}
+void die(WINDOW * textwin, WINDOW * textwin2);
+{
+	string options4[5] = {"Survive", "Die", "...", "...", "..."};
+	action(options4, textwin, textwin2);
+}
+void burial(WINDOW * textwin, WINDOW * textwin2);
+{
+	string options5[5] = {"Survive", "Die", "...", "...", "..."};
+	action(options5, textwin, textwin2);
 }
