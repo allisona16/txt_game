@@ -11,11 +11,16 @@ void fly(WINDOW * textwin, WINDOW * textwin2);
 void crash(WINDOW * textwin, WINDOW * textwin2);
 void die(WINDOW * textwin, WINDOW * textwin2);
 void burial(WINDOW * textwin, WINDOW * textwin2);
+void zombie(WINDOW * textwin, WINDOW * textwin2);
+void gameOver(WINDOW * textwin, WINDOW * textwin2);
 int main(int argc, char ** argv)
 {
 	initscr();
 	noecho();
 	cbreak();
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_WHITE);
+	init_pair(2, COLOR_BLUE, COLOR_WHITE);
 
 	//making a menu for the start of the game
 	int height, width, starty, startx;
@@ -118,12 +123,25 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 
 	string crash_ = "However, as the girl was flying on the alicorn, a very strong storm occurred and the girl and alicorn were struggling to stay in the sky. As they were flying, a strong wind hit them and both of them crashed and fell into the sea.";
 
-	string die_ = "As the girl and alicorn fell into the sea, both began to drown and failed to reach shore. They couldn't breath and both sadly died in the sea. They drowned all the way to the bottom of the sea and they were never seen again.";
+	string survive_ = "DO YOU REALLY THINK THIS FALL IS SURVIVABLE??\n";
+	survive_ += "As the girl and alicorn fell into the sea, both began to drown and failed to reach shore. They couldn't breath and both sadly died in the sea. They drowned all the way to the bottom of the sea and they were never seen after a while.";
+
+	string die_ = "As the girl and alicorn fell into the sea, both began to drown and failed to reach shore. They couldn't breath and both sadly died in the sea. They drowned all the way to the bottom of the sea and they were never seen after a while.";
+	
+	string abandoned_ = "When the girl and the alicorn fell into sea, they were rushed below and drowned. After such a long time, they were never found ever again. Even through research and investigation, after 30 years, police and investigators gave up and claimed their case as dead.";
 
 	string burial_ = "A year after their drowning, investigators were searching the area. As they went underwater to observe, they suddenly found the girl that went missing for a year, and her alicorn that she rode. The investigators contacted the police and the girls family, and they were taken out of the sea. The family arranged a funeral for the girl and alicorn the next day.";
 
+	string afterlife_ = "All of a sudden, the girl woke up to find herself in the afterlife. Then, she saw two buttons. Reincarnate or rest. After a long decision, the girl chose the button to reincarnate. Then, she woke up and saw a light.";
+
+	string zombie_ = "After quite a while, the girl suddenly woke up to find herself underground. She quickly got up and fought her way out. When she escaped her grave, she saw herself to be a walking zombie! As she ran out the graveyard, she saw many people, craving for their brains. Once the people noticed the zombie, they all quickly contacted the police. The police came as quick as possible and once they got her under control, they shot her to her death and everything became a blur.";
+
 	while(1)
 	{
+		box(action, 0, 0);	/*making a box on the menu and shows it*/
+		refresh();
+		wrefresh(action);
+
 		for(int i = 0; i < 5; i++)
 		{
 			if(i == highlight)
@@ -158,28 +176,59 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 			{
 				displayText(textwin, textwin2, fly_);
 				fly(textwin, textwin2);
+				break;
 			}
 			if(options[highlight] == "Crash")
 			{
 				displayText(textwin, textwin2, crash_);
 				crash(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Survive")
+			{
+				displayText(textwin, textwin2, survive_);
+				die(textwin, textwin2);
+				break;
 			}
 			if(options[highlight] == "Die")
 			{
 				displayText(textwin, textwin2, die_);
 				die(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Abandoned")
+			{
+				displayText(textwin, textwin2, abandoned_);
+				getch();
+				gameOver(textwin, textwin2);
+				break;
 			}
 			if(options[highlight] == "Burial")
 			{
 				displayText(textwin, textwin2, burial_);
 				burial(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Afterlife")
+			{
+				displayText(textwin, textwin2, afterlife_);
+				getch();
+				gameOver(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Zombie")
+			{
+				displayText(textwin, textwin2, zombie_);
+				zombie(textwin, textwin2);
+				break;
 			}
 			mvwprintw(stdscr, 1, 1, "%s", options[highlight].c_str());
 			refresh();
 		}
+		wclear(action);
 		wrefresh(action);
 		refresh();
-		wgetch(action);
+		
 			
 	}
 }
@@ -204,21 +253,57 @@ void displayText(WINDOW * textwin, WINDOW * textwin2, string story)
 
 void fly(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options2[5] = {"Crash", "Land", "Spinning", "...", "..."};
-	action(options2, textwin, textwin2);	
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Fly");
+	attroff(A_BOLD);
+	mvwchgat(textwin2, 0,26, 11, A_REVERSE, 2,NULL);
+	wrefresh(textwin);
+	wrefresh(textwin2);
+	string options[5] = {"Crash", "Land", "Spinning", "...", "..."};
+	action(options, textwin, textwin2);	
 }
 void crash(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options3[5] = {"Survive", "Die", "...", "...", "..."};
-	action(options3, textwin, textwin2);
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Crash");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Survive", "Die", "...", "...", "..."};
+	action(options, textwin, textwin2);
 }
 void die(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options4[5] = {"Abandoned", "Burial", "...", "...", "..."};
-	action(options4, textwin, textwin2);
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Die");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Abandoned", "Burial", "...", "...", "..."};
+	action(options, textwin, textwin2);
 }
 void burial(WINDOW * textwin, WINDOW * textwin2)
 {
-	string options5[5] = {"Afterlife", "Zombie", "...", "...", "..."};
-	action(options5, textwin, textwin2);
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Burial");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Afterlife", "Zombie", "...", "...", "..."};
+	action(options, textwin, textwin2);
+}
+void zombie(WINDOW * textwin, WINDOW * textwin2)
+{
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Zombie");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"...", "...", "Afterlife", "...", "..."};
+	action(options, textwin, textwin2);
+}
+void gameOver(WINDOW * textwin, WINDOW * textwin2)
+{
+	string gameOver = "You've reached the end click Start Game to play again";
+	displayText(textwin, textwin2, gameOver);
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "gameOver");
+	attroff(A_BOLD);
+	wrefresh(textwin);
 }
