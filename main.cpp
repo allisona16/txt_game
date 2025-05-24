@@ -13,6 +13,9 @@ void die(WINDOW * textwin, WINDOW * textwin2);
 void burial(WINDOW * textwin, WINDOW * textwin2);
 void zombie(WINDOW * textwin, WINDOW * textwin2);
 void gameOver(WINDOW * textwin, WINDOW * textwin2);
+void kite(WINDOW * textwin, WINDOW * textwin2);
+void clouds(WINDOW * textwin, WINDOW * textwin2);
+void man(WINDOW * textwin, WINDOW * textwin2);
 int main(int argc, char ** argv)
 {
 	initscr();
@@ -136,6 +139,12 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 
 	string zombie_ = "After quite a while, the girl suddenly woke up to find herself underground. She quickly got up and fought her way out. When she escaped her grave, she saw herself to be a walking zombie! As she ran out the graveyard, she saw many people, craving for their brains. Once the people noticed the zombie, they all quickly contacted the police. The police came as quick as possible and once they got her under control, they shot her to her death and everything became a blur.";
 
+	string kite_ = "However, little did they know that the girl somehow survived. As the girl climbed out the whole, she saw something mysterious. It was a strange blue kite that was glowing. The girls curiosity lead her to walking towards the kite and picking it up. Suddenly, the girl and the kite both vanished into thin air.";
+
+	string clouds_ = "The girl found herself on a cloud. When she got up, she suddenly fell through the clouds. Her life flashed through her eyes, but suddenly, she fell on something that caught her. As she caught her breath and vision, she realized that she fell on a farm where a village was in sight. As the girl got up, she noticed a man in a barn and headed towards the man.";
+	
+	string man_ = "Once the girl went up to the man, the man turned around and was shocked to see such a mysterious girl out of no where. The man asked the girl where she was from and why she was at his farm on his property. The girl responded that she got lost and didn't know how to get to her way back home. She asked the man if he could help her. At first, the man was hesitant to help a girl he didn't know, but then he gave in and agreed to help her.";
+
 	while(1)
 	{
 		box(action, 0, 0);	/*making a box on the menu and shows it*/
@@ -222,6 +231,24 @@ void action(string options[5], WINDOW * textwin, WINDOW * textwin2)
 				zombie(textwin, textwin2);
 				break;
 			}
+			if(options[highlight] == "Kite")
+			{
+				displayText(textwin, textwin2, kite_);
+				kite(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Clouds")
+			{
+				displayText(textwin, textwin2, clouds_);
+				clouds(textwin, textwin2);
+				break;
+			}
+			if(options[highlight] == "Man")
+			{
+				displayText(textwin, textwin2, man_);
+				man(textwin, textwin2);
+				break;
+			}
 			mvwprintw(stdscr, 1, 1, "%s", options[highlight].c_str());
 			refresh();
 		}
@@ -256,6 +283,8 @@ void fly(WINDOW * textwin, WINDOW * textwin2)
 	attron(A_BOLD);
 	mvwprintw(textwin, 0,3, "Fly");
 	attroff(A_BOLD);
+
+	//added colors to certain words
 	mvwchgat(textwin2, 0,26, 11, A_REVERSE, 2,NULL);
 	wrefresh(textwin);
 	wrefresh(textwin2);
@@ -267,7 +296,12 @@ void crash(WINDOW * textwin, WINDOW * textwin2)
 	attron(A_BOLD);
 	mvwprintw(textwin, 0,3, "Crash");
 	attroff(A_BOLD);
+
+	mvwchgat(textwin2, 2,63,7, A_REVERSE, 1,NULL);
+	mvwchgat(textwin2, 3,0,2, A_REVERSE, 1,NULL);
+	mvwchgat(textwin2, 3,7,4, A_REVERSE, 1,NULL);
 	wrefresh(textwin);
+	wrefresh(textwin2);
 	string options[5] = {"Survive", "Die", "...", "...", "..."};
 	action(options, textwin, textwin2);
 }
@@ -298,6 +332,34 @@ void zombie(WINDOW * textwin, WINDOW * textwin2)
 	string options[5] = {"...", "...", "Afterlife", "...", "..."};
 	action(options, textwin, textwin2);
 }
+void kite(WINDOW * textwin, WINDOW * textwin2)
+{
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Kite");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Clouds", "Rainbow", "Cave" "...", "..."};
+	action(options, textwin, textwin2);
+}
+void clouds(WINDOW * textwin, WINDOW * textwin2)
+{
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Clouds");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Man", "Invisible", "..." "...", "..."};
+	action(options, textwin, textwin2);
+}
+void man(WINDOW * textwin, WINDOW * textwin2)
+{
+	attron(A_BOLD);
+	mvwprintw(textwin, 0,3, "Man");
+	attroff(A_BOLD);
+	wrefresh(textwin);
+	string options[5] = {"Castle", "Lake", "..." "...", "..."};
+	action(options, textwin, textwin2);
+}
+
 void gameOver(WINDOW * textwin, WINDOW * textwin2)
 {
 	string gameOver = "You've reached the end click Start Game to play again";
